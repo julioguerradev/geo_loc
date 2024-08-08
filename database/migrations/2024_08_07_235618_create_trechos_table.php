@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('rodovia_id');
             $table->integer('quilometragem_inicial');
             $table->integer('quilometragem_final');  
-            $table->geometry('geo');                                   
+            $table->longText('geo');                                   
 
             $table->timestamps();
             $table->softDeletes();
