@@ -20,5 +20,14 @@ class Trechos extends Model
         'geo'
     ];
 
+    public function uf()
+    {
+        return $this->belongsTo(Ufs::class, 'uf_id');
+    }
+
+    public function rodovia()
+    {
+        return $this->belongsTo(Rodovias::class, 'rodovia_id');
+    }
 
 }

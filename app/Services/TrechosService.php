@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use App\Models\Ufs;
 use App\Models\Trecho;
 use GuzzleHttp\Client;
+use App\Models\Rodovias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Exception\RequestException;
 
 class TrechosService {
@@ -49,19 +52,32 @@ class TrechosService {
             'quilometragem_final.required'    => 'A quilometragem final deve ser informado.',
         ]);
 
-        dd($result);
-
         $result['data_referencia'] = Carbon::now()->format('Y-m-d');
 
         return $result;
         
     }
 
-    public function fetchGeo($params)
+    public function getUfAndRodoviaData($ufId, $rodoviaId)
     {
-        $rodovia               = $params['rodovia_id'];
-        $tipo                  = $params['tipo_trecho'];
-        $uf                    = $params['uf_id'];
+        $uf = Ufs::find($ufId);
+        $rodovia = Rodovias::find($rodoviaId);
+
+        if (!$uf || !$rodovia) {
+            throw new \Exception('UF ou Rodovia não encontrado.');
+        }
+
+        return [
+            'uf_sigla' => $uf->sigla,
+            'rodovia_codigo' => $rodovia->codigo,
+        ];
+    }
+
+    public function fetchGeo($params, $ufRodovia)
+    {
+        $rodovia               = $ufRodovia['rodovia_codigo'];
+        $tipo                  = 'B';
+        $uf                    = $ufRodovia['uf_sigla'];
         $data_referencia       = $params['data_referencia'];
         $quilometragem_inicial = $params['quilometragem_inicial'];
         $quilometragem_final    = $params['quilometragem_final'];
@@ -71,7 +87,16 @@ class TrechosService {
         try {
             $response = $this->client->get($url);
 
-            return json_decode($response->getBody()->getContents(), true);
+
+            // dd($response->getBody()->getContents());
+
+            
+            // $retorno = new \StdClass();
+            // $retorno->geo = $response->getBody()->getContents();
+            // $retorno->geo = json_encode(json_decode($response->getBody()->getContents())->geometry->coordinates);
+            // return $retorno;
+            
+            return $response->getBody()->getContents();
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 return json_decode($e->getResponse()->getBody()->getContents(), true);

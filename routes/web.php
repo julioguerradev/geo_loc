@@ -2,9 +2,11 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UfController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\TechosController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RodoviaController;
 use App\Http\Controllers\TrechosController;
 
 /*
@@ -37,6 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 Route::resource('trechos', TrechosController::class);
+
+Route::get('/ufs', [UfController::class, 'index']);
+Route::get('/rodovias', [RodoviaController::class, 'index']);
 
 require __DIR__.'/auth.php';
