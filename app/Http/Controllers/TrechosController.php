@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Trechos;
 use Illuminate\Http\Request;
@@ -20,7 +19,8 @@ class TrechosController extends Controller
 
     public function index()
     {
-        $trechos = Trechos::all();
+        // $trechos = Trechos::all();
+        $trechos = Trechos::with(['uf', 'rodovia'])->get();
         return Inertia::render('Trechos/Index', ['trechos' => $trechos]);
     }
 

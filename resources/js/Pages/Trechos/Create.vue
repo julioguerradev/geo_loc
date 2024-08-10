@@ -1,45 +1,95 @@
 <template>
-  <form @submit.prevent="submit">
-    <div>
-      <label for="uf_id">Unidade da Federação:</label>
-      <select id="uf_id" v-model="form.uf_id">
-        <option v-for="uf in ufs" :key="uf.id" :value="uf.id">
-          {{ uf.nome }}
-        </option>
-      </select>
-    </div>
+  <Header/>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        
+        <form class="card" @submit.prevent="submit">
+          <div class="container px-5 py-5">
+            <div class="row">
+              <div class="pb-2 col-6">
+                <h2>Cadastrar Trecho</h2>
+              </div>
+              <div class="pb-2 col-6 d-flex justify-content-end">
+                <Link href="/trechos" class="gap-3 btn btn-info d-flex align-items-center ">
+                  <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                  Voltar
+                </Link>
+              </div>
+              <div class="mb-3 col-6">
+                <div class="">
+                  <SelectInput
+                    v-model="form.uf_id"
+                    :options="ufs"
+                    label="Unidade Federativa"
+                    id="uf_id"
+                    name="uf_id"
+                  />                  
+                </div>
+              </div>
+              <div class="mb-3 col-6">
+                <div class="">
+                  <SelectInput
+                    v-model="form.rodovia_id"
+                    :options="rodovias"
+                    label="Rodovia"
+                    id="rodovia_id"
+                    name="rodovia_id"
+                  />
+                </div>
+              </div>
 
-    <div>
-      <label for="rodovia_id">Rodovia:</label>
-      <select id="rodovia_id" v-model="form.rodovia_id">
-        <option v-for="rodovia in rodovias" :key="rodovia.id" :value="rodovia.id">
-          {{ rodovia.nome }}
-        </option>
-      </select>
-    </div>
+              <div class="col-3">
+                <InputLabel for="quilometragem_inicial" value="Km Inicial" />
+                <TextInput
+                    id="quilometragem_inicial"
+                    type="text"
+                    class="block w-full mt-1"
+                    v-model="form.quilometragem_inicial"
+                    required
+                    autofocus
 
-    <div>
-      <label for="quilometragem_inicial">Quilometragem Inicial:</label>
-      <input type="number" id="quilometragem_inicial" v-model="form.quilometragem_inicial" />
+                />
+              </div>
+              <div class="col-3">
+                <InputLabel for="quilometragem_final" value="Km Final" />
+                <TextInput
+                    id="quilometragem_final"
+                    type="text"
+                    class="block w-full mt-1"
+                    v-model="form.quilometragem_final"
+                    required
+                    autofocus
+                />
+              </div>
+              <div class="mb-3 col-6">
+                <div class="">
+                  <InputLabel for="data_referencia" value="Data de Referência" />
+                  <CalendarInput
+                    v-model="form.data_referencia"
+                    id="data_referencia"
+                    name="data_referencia"
+                  />
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <div>
-      <label for="quilometragem_final">Quilometragem Final:</label>
-      <input type="number" id="quilometragem_final" v-model="form.quilometragem_final" />
-    </div>
-
-    <div>
-      <label for="data_referencia">Data de Referência:</label>
-      <input type="date" id="data_referencia" v-model="form.data_referencia" />
-    </div>
-    
-    <button type="submit">Salvar</button>
-    <Link href="/trechos" class="btn btn-primary">Voltar à lista</Link>
-    
-  </form>
+  </div>
+  
+  
 </template>
 
 <script setup>
+import InputLabel from '@/Components/InputLabel.vue';
+import TextInput from '@/Components/TextInput.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import CalendarInput from '@/Components/CalendarInput.vue';
+import Header from '@/Components/Header.vue';
 import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
