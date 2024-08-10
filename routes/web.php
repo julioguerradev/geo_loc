@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use App\Models\Rodovias;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UfController;
 use Illuminate\Foundation\Application;
@@ -51,5 +52,16 @@ Route::resource('trechos', TrechosController::class);
 
 Route::get('/ufs', [UfController::class, 'index']);
 Route::get('/rodovias', [RodoviaController::class, 'index']);
+
+
+Route::get('/getRodovias/{uf}',[RodoviaController::class, '']);
+
+Route::get('/getRodovias/{uf}', function ($uf) {
+    $rodovias = Rodovias::join('ufs', 'rodovias.estado', '=', 'ufs.nome')
+                  ->select('rodovias.*', 'ufs.nome as nome_estado')
+                  ->where('ufs.id', $uf)
+                  ->get();
+    return response()->json($rodovias);
+});
 
 require __DIR__.'/auth.php';

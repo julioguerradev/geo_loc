@@ -46,6 +46,7 @@ class TrechosController extends Controller
         $trecho = new Trechos();
 
         $trecho->fill($validatedData);
+
         $trecho->geo = $this->trechoService->fetchGeo($validatedData, $ufRodovia);
 
         $trecho->save();
@@ -72,11 +73,37 @@ class TrechosController extends Controller
 
     public function update(Request $request, $id)
     {
-        $trecho = Trechos::findOrFail($id);
-        $trecho->update($request->all());
+        // Validação dos dados recebidos
+        $validatedData = $request->validate([
+            'data_referencia' => 'required|date',
+            'uf_id' => 'required|exists:ufs,id',
+            'rodovia_id' => 'required|exists:rodovias,id',
+            'quilometragem_inicial' => 'required|integer',
+            'quilometragem_final' => 'required|integer',
+            'geo' => 'nullable|string',
+        ]);
 
+        // Obtém dados adicionais para 'uf_id' e 'rodovia_id'
+        $ufRodovia = $this->trechoService->getUfAndRodoviaData($validatedData['uf_id'], $validatedData['rodovia_id']);
+
+        // Busca a informação geo se não estiver no request
+        if (!$validatedData['geo']) {
+            $validatedData['geo'] = $this->trechoService->fetchGeo($validatedData, $ufRodovia);
+        }
+
+        // Busca o trecho e verifica se existe
+        $trecho = Trechos::findOrFail($id);
+        
+        // Preenche o trecho com os dados validados
+        $trecho->fill($validatedData);
+
+        // Atualiza o trecho no banco de dados
+        $trecho->save();
+
+        // Redireciona para a rota de índice com mensagem de sucesso
         return redirect()->route('trechos.index')->with('success', 'Trecho atualizado com sucesso!');
     }
+
 
     public function destroy($id)
     {

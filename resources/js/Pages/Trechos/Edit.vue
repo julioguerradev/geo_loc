@@ -24,6 +24,7 @@
                     label="Unidade Federativa"
                     id="uf_id"
                     name="uf_id"
+                    @change="handleUfChange"
                   />                  
                 </div>
               </div>
@@ -122,6 +123,18 @@
   };
   onMounted(fetchOptions);
   
+  const handleUfChange = () => {
+  fetch(`/getRodovias/${form.uf_id}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      rodovias.value = data
+    })
+    .catch(error => {
+      console.error('Erro ao buscar dados da rodovia:', error);
+    });
+};
+
   // Função para enviar os dados atualizados
   const updateTrecho = () => {
     form.put(`/trechos/${props.trecho.id}`)
@@ -129,11 +142,7 @@
 
   const deleteTrecho = () => {
   if (confirm('Tem certeza que deseja deletar este trecho?')) {
-    form.delete(`/trechos/${props.trecho.id}`)
-      .catch(error => {
-        // Lida com erros
-        console.error('Erro ao deletar o trecho:', error);
-      });
+    form.delete(`/trechos/${props.trecho.id}`);
   }
 };
 </script>

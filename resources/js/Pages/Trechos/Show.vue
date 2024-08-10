@@ -5,6 +5,14 @@
       <div class="col-12">
         <div class="pb-2">
           <h2>Cadastrar Trecho</h2>
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+              <Link href="/trechos" class="gap-3 btn btn-info d-flex align-items-center ">
+                <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                Voltar
+              </Link>
+            </div>
+          </div>
           <div class="my-3 card" >
             <div class="row g-0">
               <div class="col-md-6 d-flex align-items-center">
@@ -23,7 +31,6 @@
               </div>
             </div>
           </div>
-          <Link href="/trechos" class="btn btn-primary">Voltar à lista</Link>
         </div>
       </div>
     </div>
@@ -44,9 +51,6 @@
   });
 
   onMounted(async () => {
-
-    console.log(props.trecho.geo)
-
     const map = L.map('map').setView([51.505, -0.09], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 

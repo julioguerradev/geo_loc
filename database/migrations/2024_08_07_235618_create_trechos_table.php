@@ -24,13 +24,9 @@ return new class extends Migration
             $table->unsignedBigInteger('rodovia_id');
             $table->foreign('rodovia_id')->references('id')->on('rodovias');
 
-            // $table->foreignId('uf_id')->constrained('ufs')->onDelete('cascade');
-            // $table->foreignId('rodovia_id')->constrained('rodovias')->onDelete('cascade');
-
-
             $table->integer('quilometragem_inicial');
             $table->integer('quilometragem_final');  
-            $table->longText('geo');                                   
+            $table->longText('geo')->nullable();                          
 
             $table->timestamps();
             $table->softDeletes();

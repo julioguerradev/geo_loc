@@ -25,6 +25,7 @@
                     label="Unidade Federativa"
                     id="uf_id"
                     name="uf_id"
+                    @change="handleUfChange"
                   />                  
                 </div>
               </div>
@@ -48,7 +49,6 @@
                     class="block w-full mt-1"
                     v-model="form.quilometragem_inicial"
                     required
-                    autofocus
 
                 />
               </div>
@@ -60,7 +60,6 @@
                     class="block w-full mt-1"
                     v-model="form.quilometragem_final"
                     required
-                    autofocus
                 />
               </div>
               <div class="mb-3 col-6">
@@ -90,7 +89,7 @@ import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import CalendarInput from '@/Components/CalendarInput.vue';
 import Header from '@/Components/Header.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 
@@ -111,14 +110,30 @@ const fetchOptions = async () => {
     const ufResponse = await fetch('/ufs');
     ufs.value = await ufResponse.json();
 
+
+    
     const rodoviaResponse = await fetch('/rodovias');
     rodovias.value = await rodoviaResponse.json();
+
+    
   } catch (error) {
     console.error('Erro ao buscar dados:', error);
   }
 };
 
 onMounted(fetchOptions);
+
+const handleUfChange = () => {
+  fetch(`/getRodovias/${form.uf_id}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      rodovias.value = data
+    })
+    .catch(error => {
+      console.error('Erro ao buscar dados da rodovia:', error);
+    });
+};
 
 const submit = () => {
   form.post('/trechos', {

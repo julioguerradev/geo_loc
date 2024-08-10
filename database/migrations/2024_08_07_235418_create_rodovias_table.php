@@ -10,8 +10,10 @@ class CreateRodoviasTable extends Migration
     {
         Schema::create('rodovias', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->unique(); // Ex: "BR-101"
-            $table->string('nome'); // Ex: "Rodovia BR-101"
+            $table->string('codigo');
+            $table->string('nome');
+            $table->string('estado');
+            $table->timestamps();
         });
     }
 

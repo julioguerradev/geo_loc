@@ -15,4 +15,9 @@ class Ufs extends Model
     {
         return $this->hasMany(Trechos::class, 'rodovia_id');
     }
+
+    public function rodovias()
+    {
+        return $this->hasMany(Rodovias::class, 'estado', 'nome');
+    }
 }

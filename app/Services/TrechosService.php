@@ -69,7 +69,7 @@ class TrechosService {
 
         return [
             'uf_sigla' => $uf->sigla,
-            'rodovia_codigo' => $rodovia->codigo,
+            'rodovia_codigo' => str_replace('BR-', '', $rodovia->codigo)
         ];
     }
 
@@ -86,15 +86,6 @@ class TrechosService {
 
         try {
             $response = $this->client->get($url);
-
-
-            // dd($response->getBody()->getContents());
-
-            
-            // $retorno = new \StdClass();
-            // $retorno->geo = $response->getBody()->getContents();
-            // $retorno->geo = json_encode(json_decode($response->getBody()->getContents())->geometry->coordinates);
-            // return $retorno;
             
             return $response->getBody()->getContents();
         } catch (RequestException $e) {

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rodovias extends Model
 {
@@ -17,4 +17,9 @@ class Rodovias extends Model
     {
         return $this->hasMany(Trechos::class, 'rodovia_id');
     }
+
+    public function uf()
+{
+    return $this->belongsTo(Ufs::class, 'estado', 'nome');
+}
 }
