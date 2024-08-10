@@ -47,14 +47,13 @@ use App\Http\Controllers\TrechosController;
 
 
 
-// Route::get('/', [TrechosController::class, 'index']);
 Route::resource('trechos', TrechosController::class);
+
+
 
 Route::get('/ufs', [UfController::class, 'index']);
 Route::get('/rodovias', [RodoviaController::class, 'index']);
 
-
-Route::get('/getRodovias/{uf}',[RodoviaController::class, '']);
 
 Route::get('/getRodovias/{uf}', function ($uf) {
     $rodovias = Rodovias::join('ufs', 'rodovias.estado', '=', 'ufs.nome')

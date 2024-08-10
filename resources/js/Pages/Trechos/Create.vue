@@ -89,7 +89,7 @@ import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import CalendarInput from '@/Components/CalendarInput.vue';
 import Header from '@/Components/Header.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 
@@ -109,12 +109,8 @@ const fetchOptions = async () => {
   try {
     const ufResponse = await fetch('/ufs');
     ufs.value = await ufResponse.json();
-
-
-    
     const rodoviaResponse = await fetch('/rodovias');
     rodovias.value = await rodoviaResponse.json();
-
     
   } catch (error) {
     console.error('Erro ao buscar dados:', error);

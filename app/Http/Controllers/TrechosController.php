@@ -19,7 +19,6 @@ class TrechosController extends Controller
 
     public function index()
     {
-        // $trechos = Trechos::all();
         $trechos = Trechos::with(['uf', 'rodovia'])->get();
         return Inertia::render('Trechos/Index', ['trechos' => $trechos]);
     }
@@ -32,6 +31,7 @@ class TrechosController extends Controller
     public function store(Request $request)
     {
         // $dataToSave        = $this->trechoService->validate($request);
+
         $validatedData = $request->validate([
             'data_referencia' => 'required|date',
             'uf_id' => 'required|exists:ufs,id',

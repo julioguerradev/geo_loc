@@ -48,8 +48,6 @@
                     class="block w-full mt-1"
                     v-model="form.quilometragem_inicial"
                     required
-                    autofocus
-
                 />
               </div>
               <div class="col-3">
@@ -60,7 +58,6 @@
                     class="block w-full mt-1"
                     v-model="form.quilometragem_final"
                     required
-                    autofocus
                 />
               </div>
               <div class="mb-3 col-6">
@@ -113,27 +110,28 @@
   const fetchOptions = async () => {
     try {
       const ufResponse = await fetch('/ufs');
-      ufs.value = await ufResponse.json();
+      ufs.value        = await ufResponse.json();
 
       const rodoviaResponse = await fetch('/rodovias');
-      rodovias.value = await rodoviaResponse.json();
+      rodovias.value        = await rodoviaResponse.json();
+      
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
     }
   };
+  
   onMounted(fetchOptions);
   
   const handleUfChange = () => {
-  fetch(`/getRodovias/${form.uf_id}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      rodovias.value = data
-    })
-    .catch(error => {
-      console.error('Erro ao buscar dados da rodovia:', error);
-    });
-};
+    fetch(`/getRodovias/${form.uf_id}`)
+      .then(response => response.json())
+      .then(data => {
+        rodovias.value = data
+      })
+      .catch(error => {
+        console.error('Erro ao buscar dados da rodovia:', error);
+      });
+  };
 
   // Função para enviar os dados atualizados
   const updateTrecho = () => {

@@ -13,7 +13,6 @@
         </div>
       </div>
 
-
       <table class="table table-striped">
         <thead>
           <tr>
@@ -63,9 +62,6 @@
   import Header from "@/Components/Header.vue";
   import { ref, computed } from "vue";
 
-  const headers = ["UF", "BR", "Quilometro Inicial", "Quilometro Final", "Ação"];
-  const searchQuery = ref("");
-
   const props = defineProps({
     trechos: {
       type: Array,
@@ -73,6 +69,10 @@
     },
   });
 
+  const headers = ["UF", "BR", "Quilometro Inicial", "Quilometro Final", "Ação"];
+  
+  
+  const searchQuery = ref("");
   const filteredTrechos = computed(() => {
     return props.trechos.filter((trecho) => {
       const rodovia = trecho.rodovia?.nome?.toLowerCase() || "";
