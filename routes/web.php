@@ -21,46 +21,16 @@ use App\Http\Controllers\TrechosController;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// Route::get('/', function () {
-//     return Inertia::render('AppLayout');
-// });
-
-
-
-
+Route::get('/', [TrechosController::class, 'index']);
 Route::resource('trechos', TrechosController::class);
-
 
 
 Route::get('/ufs', [UfController::class, 'index']);
 Route::get('/rodovias', [RodoviaController::class, 'index']);
 
+Route::get('/getRodovias/{uf}', [RodoviaController::class, 'getRodoviasByUf']);
 
-Route::get('/getRodovias/{uf}', function ($uf) {
-    $rodovias = Rodovias::join('ufs', 'rodovias.estado', '=', 'ufs.nome')
-                  ->select('rodovias.*', 'ufs.nome as nome_estado')
-                  ->where('ufs.id', $uf)
-                  ->get();
-    return response()->json($rodovias);
-});
+
 
 require __DIR__.'/auth.php';
+

@@ -25,7 +25,7 @@
                     id="uf_id"
                     name="uf_id"
                     @change="handleUfChange"
-                  />                  
+                  />  
                 </div>
               </div>
               <div class="mb-3 col-6">
@@ -95,7 +95,6 @@
   
   const props = defineProps({
     trecho: {
-      type: Object,
       required: true,
     },
   });

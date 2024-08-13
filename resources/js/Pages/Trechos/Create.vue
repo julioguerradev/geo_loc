@@ -123,7 +123,6 @@ const handleUfChange = () => {
   fetch(`/getRodovias/${form.uf_id}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       rodovias.value = data
     })
     .catch(error => {

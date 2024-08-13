@@ -8,7 +8,6 @@
         default: () => [],
     },
     modelValue: {
-        type: String,
         default: '',
     },
     label: {

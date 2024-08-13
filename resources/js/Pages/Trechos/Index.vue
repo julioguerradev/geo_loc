@@ -60,7 +60,7 @@
 <script setup>
   import { Link } from "@inertiajs/vue3";
   import Header from "@/Components/Header.vue";
-  import { ref, computed } from "vue";
+  import { defineProps, ref, computed } from "vue";
 
   const props = defineProps({
     trechos: {
